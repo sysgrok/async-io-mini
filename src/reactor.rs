@@ -173,7 +173,7 @@ impl<const N: usize> Registrations<N> {
             fds.set(event_fd, Event::Read);
             max = Some(max.map_or(event_fd, |max| max.max(event_fd)));
 
-            debug!("Set event FD: {event_fd}");
+            trace!("Set event FD: {event_fd}");
         }
 
         for registration in &self.vec {
@@ -181,28 +181,28 @@ impl<const N: usize> Registrations<N> {
                 if registration.wakers[event as usize].is_some() {
                     fds.set(registration.fd, event);
 
-                    debug!("Set registration FD: {}/{event:?}", registration.fd);
+                    trace!("Set registration FD: {}/{event:?}", registration.fd);
                 }
 
                 max = Some(max.map_or(registration.fd, |max| max.max(registration.fd)));
             }
         }
 
-        debug!("Max FDs: {max:?}");
+        trace!("Max FDs: {max:?}");
 
         Ok(max)
     }
 
     #[allow(deprecated)]
     fn update_events(&mut self, fds: &Fds) -> io::Result<()> {
-        debug!("Updating events");
+        trace!("Updating events");
 
         self.consume_notification()?;
 
         for registration in &mut self.vec {
             for event in EnumSet::ALL {
                 if fds.is_set(registration.fd, event) {
-                    debug!("Registration FD is set: {}/{event:?}", registration.fd);
+                    trace!("Registration FD is set: {}/{event:?}", registration.fd);
 
                     registration.events |= event;
                     if let Some(waker) = registration.wakers[event as usize].take() {
@@ -300,7 +300,7 @@ impl<const N: usize> Registrations<N> {
                 )
             })?;
 
-            debug!("Consumed notification");
+            trace!("Consumed notification");
 
             Ok(true)
         } else {
@@ -395,7 +395,7 @@ impl<const N: usize> Reactor<N> {
                 Err(err) => Err(err),
                 Ok(None) => unreachable!("EventFD is not there?"),
                 Ok(Some(max)) => {
-                    debug!("Start select");
+                    trace!("Start select");
 
                     let result = syscall_los!(unsafe {
                         sys::select(
@@ -407,7 +407,7 @@ impl<const N: usize> Reactor<N> {
                         )
                     });
 
-                    debug!("End select");
+                    trace!("End select");
 
                     result.map(|_| ())
                 }
