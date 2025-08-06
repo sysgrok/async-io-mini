@@ -8,7 +8,7 @@ use std::sync::MutexGuard;
 
 use enumset::{EnumSet, EnumSetType};
 
-use log::{debug, info};
+use log::{debug, info, trace};
 
 use libc as sys;
 
