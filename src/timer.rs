@@ -368,15 +368,8 @@ impl Timer {
             let ticks = Self::ticks(&when);
 
             if let Some(ticks) = ticks {
-                if self
-                    .waker
-                    .as_ref()
-                    .map(|waker| !waker.will_wake(cx.waker()))
-                    .unwrap_or(true)
-                {
-                    self.waker = Some(cx.waker().clone());
-                    embassy_time_driver::schedule_wake(ticks, cx.waker());
-                }
+                self.waker = Some(cx.waker().clone());
+                embassy_time_driver::schedule_wake(ticks, cx.waker());
             } else {
                 self.set_never();
             }
