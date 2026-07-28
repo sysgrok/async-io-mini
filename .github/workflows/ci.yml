@@ -18,7 +18,7 @@ jobs:
       matrix:
         rust_toolchain:
           - nightly
-          - 1.83 # MSRV
+          - 1.85 # MSRV
 
     steps:
       - name: Setup | Checkout
