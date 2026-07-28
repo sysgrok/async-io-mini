@@ -1,6 +1,6 @@
 [package]
 name = "async-io-mini"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Stjepan Glavina <stjepang@gmail.com>", "Ivan Markov"]
 edition = "2021"
 rust-version = "1.83"
@@ -15,8 +15,19 @@ exclude = ["/.*"]
 default = ["futures-io", "futures-lite", "embassy-time"]
 embassy-time = ["embassy-time-driver", "dep:embassy-time"]
 
+# Stack size (in bytes) of the reactor thread.
+stack-size-8192 = []
+stack-size-7168 = []
+stack-size-6144 = []
+stack-size-5120 = []
+# Default reactor thread stack size.
+stack-size-4096 = []
+stack-size-3072 = []
+stack-size-2048 = []
+
 [dependencies]
 libc = "0.2"
+cfg-if = "1"
 enumset = "1"
 heapless = "0.9"
 log = { version = "0.4", default-features = false }

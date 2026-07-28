@@ -334,7 +334,7 @@ impl<const N: usize> Reactor<N> {
 
         std::thread::Builder::new()
             .name("async-io-mini".into())
-            .stack_size(3048)
+            .stack_size(crate::REACTOR_STACK_SIZE)
             .spawn(move || {
                 self.run().unwrap();
             })?;
