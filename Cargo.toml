@@ -33,7 +33,7 @@ heapless = "0.9"
 log = { version = "0.4", default-features = false }
 futures-io = { version = "0.3", default-features = false, optional = true, features = ["std"] }
 futures-lite = { version = "2", default-features = false, optional = true }
-embassy-time-driver = { version = "0.2.1", optional = true }
+embassy-time-driver = { version = "0.2.2", optional = true }
 embassy-time = { version = "0.5", optional = true }
 
 [dev-dependencies]
